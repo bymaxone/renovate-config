@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)"
+  ],
+  "timezone": "UTC",
+  "schedule": ["before 6am on monday"],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
+  "dependencyDashboard": true,
+  "configMigration": true,
+  "labels": ["dependencies"],
+  "postUpdateOptions": ["pnpmDedupe"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"]
+  },
+  "packageRules": [
+    {
+      "description": "Third party releases wait three days before Renovate proposes them, so a package that is unpublished or patched immediately after release never reaches a consumer.",
+      "matchPackageNames": ["!@bymax-one/**"],
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Ecosystem libraries ship fixes and backwards compatible features as one grouped pull request that merges itself once CI is green, so a fix reaches every consumer without manual work.",
+      "groupName": "bymax-one libs",
+      "matchPackageNames": ["@bymax-one/**"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "A major of an ecosystem library is a breaking change with a documented migration, so it opens a labelled pull request and waits for a human.",
+      "matchPackageNames": ["@bymax-one/**"],
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["breaking-change"]
+    }
+  ]
+}

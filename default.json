@@ -6,37 +6,65 @@
     ":semanticCommitTypeAll(chore)"
   ],
   "timezone": "UTC",
-  "schedule": ["before 6am on monday"],
+  "schedule": [
+    "before 6am on monday"
+  ],
   "prConcurrentLimit": 5,
   "prHourlyLimit": 2,
   "dependencyDashboard": true,
   "configMigration": true,
-  "labels": ["dependencies"],
-  "postUpdateOptions": ["pnpmDedupe"],
+  "labels": [
+    "dependencies"
+  ],
+  "postUpdateOptions": [
+    "pnpmDedupe"
+  ],
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["before 6am on monday"]
+    "schedule": [
+      "before 6am on monday"
+    ]
   },
   "packageRules": [
     {
       "description": "Third party releases wait three days before Renovate proposes them, so a package that is unpublished or patched immediately after release never reaches a consumer.",
-      "matchPackageNames": ["!@bymax-one/**"],
+      "matchPackageNames": [
+        "!@bymax-one/**"
+      ],
       "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Stated explicitly because the default leaves a range the new version already satisfies untouched: a consumer pinning the scope with caret ranges would receive no pull request at all and this preset's propagation would silently never run. Updating the lockfile keeps package.json wide and records the tested version. Renovate forbids combining a range strategy with update-type matching, so this rule stays separate from the grouping rule below.",
+      "matchPackageNames": [
+        "@bymax-one/**"
+      ],
+      "rangeStrategy": "update-lockfile"
     },
     {
       "description": "Ecosystem libraries ship fixes and backwards compatible features as one grouped pull request that merges itself once CI is green, so a fix reaches every consumer without manual work.",
       "groupName": "bymax-one libs",
-      "matchPackageNames": ["@bymax-one/**"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "@bymax-one/**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "automerge": true,
       "automergeType": "pr"
     },
     {
       "description": "A major of an ecosystem library is a breaking change with a documented migration, so it opens a labelled pull request and waits for a human.",
-      "matchPackageNames": ["@bymax-one/**"],
-      "matchUpdateTypes": ["major"],
+      "matchPackageNames": [
+        "@bymax-one/**"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "automerge": false,
-      "labels": ["breaking-change"]
+      "labels": [
+        "breaking-change"
+      ]
     }
   ]
 }

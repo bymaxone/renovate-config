@@ -34,6 +34,16 @@
       "minimumReleaseAge": "3 days"
     },
     {
+      "description": "A Docker digest update waits three days too, stated apart from the rule above because a digest has no release of its own: Renovate ages it by the pushed time of its tag, which Docker Hub reports. A registry that reports no tag time (GHCR, Quay, ECR) cannot be aged, so with the default minimumReleaseAgeBehaviour its digest updates stay held and are never proposed; this rule does not change that.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "minimumReleaseAge": "3 days"
+    },
+    {
       "description": "Stated explicitly because the default leaves a range the new version already satisfies untouched: a consumer pinning the scope with caret ranges would receive no pull request at all and this preset's propagation would silently never run. Updating the lockfile keeps package.json wide and records the tested version. Renovate forbids combining a range strategy with update-type matching, so this rule stays separate from the grouping rule below.",
       "matchPackageNames": [
         "@bymax-one/**"

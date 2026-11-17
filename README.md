@@ -31,6 +31,7 @@ the ecosystem belongs here.
 | Volume | 5 open pull requests, 2 per hour | Review capacity stays ahead of the queue |
 | Dashboard | Dependency Dashboard issue enabled | Pending updates are visible without reading branches |
 | Third party packages | Held for 3 days after release | An unpublished or hotfixed release never reaches a consumer |
+| Docker digests | Held for 3 days after the tag was pushed; a registry that reports no tag time (GHCR, Quay, ECR) stays held | A re-pushed or compromised image never reaches a consumer, and nothing is proposed that cannot be aged |
 | `@bymax-one/*` minor and patch | Grouped as `bymax-one libs`, automerged after CI passes | A fix propagates to every consumer with no manual step |
 | `@bymax-one/*` major | Separate pull request, labelled `breaking-change`, never automerged | A breaking change is a human decision with a migration to read |
 | Lock files | Weekly maintenance run | Transitive dependencies do not silently rot |
